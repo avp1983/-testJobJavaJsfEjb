@@ -18,7 +18,7 @@
                               pool-resize-quantity="1" max-pool-size="5" steady-pool-size="1"
                               statement-timeout-in-seconds="60" name="h2Pool">
             <property name="driverClass" value="org.h2.Driver" />
-            <property name="URL" value="jdbc:h2:mem:securityData;MVCC=TRUE;LOCK_TIMEOUT=10000;AUTO_RECONNECT=TRUE;DB_CLOSE_DELAY=-1"/>
+            <property name="URL" value="jdbc:h2:mem:securityData;DB_CLOSE_ON_EXIT=FALSE;DB_CLOSE_DELAY=-1"/>
             <property name="User" value="" />
             <property name="Password" value="" />
         </jdbc-connection-pool>
@@ -124,11 +124,11 @@
                 <auth-realm name="jdbcRealm"
                             classname="com.sun.enterprise.security.auth.realm.jdbc.JDBCRealm">
                     <property name="digest-algorithm" value="NONE"></property>
-                    <property name="user-name-column" value="userid"></property>
-                    <property name="password-column" value="password"></property>
-                    <property name="group-name-column" value="groupid"></property>
-                    <property name="group-table" value="users_groups"></property>
-                    <property name="user-table" value="users"></property>
+                    <property name="user-name-column" value="USERID"></property>
+                    <property name="password-column" value="PASSWORD"></property>
+                    <property name="group-name-column" value="GROUPID"></property>
+                    <property name="group-table" value="USERS_GROUPS"></property>
+                    <property name="user-table" value="USERS"></property>
                     <property name="datasource-jndi" value="jdbc/securityData"></property>
                     <property name="jaas-context" value="jdbcRealm"></property>
                     <property name="group-table-user-name-column" value="userid"></property>
