@@ -9,9 +9,9 @@
      
     <properties>
       <property name="eclipselink.ddl-generation" value="drop-and-create-tables"/>
-      <property name="eclipselink.logging.level" value="FINE"/>
-      <property name="eclipselink.logging.file" value="output.log"/>
+      <property name="eclipselink.logging.level" value="FINE"/>     
       <property name="javax.persistence.jdbc.driver" value="org.h2.Driver" />
+      <property name="eclipselink.logging.logger" value="JavaLogger"/>
       <property name="eclipselink.logging.level.sql" value="FINE"/>
     </properties>
   </persistence-unit>

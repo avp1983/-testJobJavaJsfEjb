@@ -5,24 +5,21 @@
  */
 package my.project.utils;
 
+import java.util.logging.Logger;
 
-import javax.ejb.Singleton;
 import javax.enterprise.inject.Produces;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
+import javax.enterprise.inject.spi.InjectionPoint;
 
 /**
  *
  * @author www
  */
-@Singleton
-public class Resources {
+//@Singleton
+
+public class LoggerProducer {
 
     @Produces
-    @SecureData
-    @PersistenceContext(unitName = "securityData")
-    private static EntityManager em;
-
-  
+    public Logger produceLogger(InjectionPoint injectionPoint) {
+        return Logger.getLogger(injectionPoint.getMember().getDeclaringClass().getName());
+    }
 }

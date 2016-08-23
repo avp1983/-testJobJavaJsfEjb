@@ -3,54 +3,44 @@ package my.project.startup;
 import java.util.logging.Logger;
 
 import javax.annotation.PostConstruct;
+import javax.ejb.DependsOn;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
+import javax.inject.Inject;
 import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import my.project.entities.security.Users;
 import my.project.entities.security.UsersGroups;
+import my.project.utils.SecureData;
 
 @Singleton
 @Startup
+@DependsOn("EntityManagerProducer")
 public class ApplicationConfigurationBean {
 
-    private final Logger log = Logger.getLogger(ApplicationConfigurationBean.class.getName());
-
-    /*@Resource(name ="jdbc/securityData")
-    private DataSource ds;*/
+    //private final Logger log = Logger.getLogger(ApplicationConfigurationBean.class.getName());
+    @Inject
+    private transient   Logger logger;
     //@Inject
     //@SecureData
-    @PersistenceContext(unitName = "securityData")
+    //@PersistenceContext(unitName = "securityData")
+    // private EntityManager em;
+    
+    @Inject
+    @SecureData
     private EntityManager em;
 
     @PostConstruct
     protected void onStartup() {
-        log.info("initializing users and roles..");
-        UsersGroups userGroup = new UsersGroups("administrators", "admin");
+        logger.info("initializing users and roles..");
+        UsersGroups userGroup = new UsersGroups("user", "user");
         em.persist(userGroup);
-       
-        Users user= new Users("admin", "test");
+        userGroup = new UsersGroups("oper", "oper");
+        em.persist(userGroup);
+        Users user = new Users("oper", "pass");
         em.persist(user);
-        
-      
-        
-        // use a migration framework here - this is just for the purpose of
-        // demonstration, works only once ;)
-        /* String createUserTable = "CREATE TABLE users (userid varchar(255) NOT NULL, password varchar(255) NOT NULL, PRIMARY KEY (userid))";
-        String createGroupTable = "CREATE TABLE users_groups ( groupid varchar(20) NOT NULL, userid varchar(255) NOT NULL)";
-        String addAdminUser = "INSERT INTO users VALUES('admin', 'test')";
-        String addUserToAdminGroup = "INSERT INTO users_groups VALUES('administrators','admin')";
-        try {
-            Connection con = ds.getConnection();
+        user = new Users("user", "pass");
+        em.persist(user);
 
-            con.prepareCall(createUserTable).execute();
-            con.prepareCall(createGroupTable).execute();
-            con.prepareCall(addAdminUser).execute();
-            con.prepareCall(addUserToAdminGroup).execute();
-
-        } catch (SQLException e) {
-            log.info(e.getMessage());
-        }*/
-        log.info("user and roles setup completed");
+        logger.info("user and roles setup completed");
     }
 }
